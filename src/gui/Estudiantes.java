@@ -7,14 +7,14 @@ public class Estudiantes extends JFrame {
     private JPanel panelBotones;
     private JPanel panelCargarDatos;
     private JPanel panelConsultar;
-    private JTextField txtNombre;
     private JButton btnConsultar;
     private JButton btnCargarDatos;
-    private JTextField txtCarrera;
+    public JTextField txtLegajo;
+    private JTextField txtNombre;
+    private JTextField txtApellido;
     private JTextField txtEdad;
     private JTextField txtTelefono;
-    private JTextField txtLegajo;
-    private JTextField txtApellido;
+    private JTextField txtCarrera;
     private JLabel lblLegajo;
     private JLabel lblNombre;
     private JLabel lblApellido;
@@ -25,5 +25,24 @@ public class Estudiantes extends JFrame {
 
     public Estudiantes(){
 
+    }
+
+    public String getLegajo(){
+        return txtLegajo.getText();
+    }
+    public String getNombre(){
+        return txtNombre.getText();
+    }
+    public String getApellido(){
+        return txtApellido.getText();
+    }
+    public String getEdad(){
+        return txtEdad.getText();
+    }
+    public String getTelefono(){
+        return txtTelefono.getText();
+    }
+    public String getCarrera(){
+        return txtCarrera.getText();
     }
 }

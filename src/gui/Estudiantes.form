@@ -131,7 +131,9 @@
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <text value=""/>
+                </properties>
               </component>
               <component id="4b9a9" class="javax.swing.JTextField" binding="txtLegajo">
                 <constraints>
