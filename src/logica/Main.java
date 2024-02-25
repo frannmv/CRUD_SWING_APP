@@ -39,8 +39,15 @@ public class Main {
             //throw new RuntimeException(e);
         }
     }
-
-    private void insertarEstudiante() throws SQLException {
+    public void limpiarFormulario(Estudiantes est){
+        est.txtLegajo.setText("");
+        est.txtNombre.setText("");
+        est.txtApellido.setText("");
+        est.txtEdad.setText("");
+        est.txtTelefono.setText("");
+        est.txtCarrera.setText("");
+    }
+    public void insertarEstudiante() throws SQLException {
         Estudiantes cargaEst = new Estudiantes();
         prepStatement = con.prepareStatement("INSERT INTO estudiantes VALUES (?,?,?,?,?,?) ");
         prepStatement.setInt(1, Integer.parseInt(cargaEst.getLegajo()));
@@ -49,5 +56,7 @@ public class Main {
         prepStatement.setInt(4,Integer.parseInt(cargaEst.getEdad()));
         prepStatement.setString(5,cargaEst.getTelefono());
         prepStatement.setString(6,cargaEst.getCarrera());
+
+        limpiarFormulario(cargaEst);
     }
 }
