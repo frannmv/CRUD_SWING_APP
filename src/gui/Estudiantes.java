@@ -33,7 +33,6 @@ public class Estudiantes extends JFrame {
             System.out.println("CONEXION ESTABLECIDA");
         }catch (SQLException e){
             System.out.println(e);
-            //throw new RuntimeException(e);
         }
     }
     public void limpiarFormulario(){
@@ -45,15 +44,22 @@ public class Estudiantes extends JFrame {
         this.txtCarrera.setText("");
     }
 
-    public boolean isChanges(PreparedStatement ps) throws SQLException {
+    public boolean seAgregoEstudiante(PreparedStatement ps) throws SQLException {
         return ps.executeUpdate() > 0;
     }
-    public void msjInsercionExitosa(){
-        listaConsultar.setModel(mod);
-        mod.removeAllElements();
+    public void msjExitoEnLista(){
         mod.addElement(" ¡ Inserción Exitosa !");
     }
+    public void removerElementosLista(){
+        listaConsultar.setModel(mod);
+        mod.removeAllElements();
+    }
+    public void removerElementosListaYmsjExito(){
+        removerElementosLista();
+        msjExitoEnLista();
+    }
     public void insertarEstudiante() throws SQLException {
+
         prepStatement = con.prepareStatement("INSERT INTO estudiantes VALUES (?,?,?,?,?,?) ");
         prepStatement.setInt(1, Integer.parseInt(this.getLegajo()));
         prepStatement.setString(2,this.getNombre());
@@ -62,20 +68,26 @@ public class Estudiantes extends JFrame {
         prepStatement.setString(5,this.getTelefono());
         prepStatement.setString(6,this.getCarrera());
 
-        if(isChanges(prepStatement)){
-            msjInsercionExitosa();
+    }
+    public void insertarEstudianteYLimpiarForm() throws SQLException {
+        insertarEstudiante();
+        if(seAgregoEstudiante(prepStatement)){
+            removerElementosListaYmsjExito();
             limpiarFormulario();
         }
     }
-
     public void consultarEstudiantes() throws SQLException {
-        listaConsultar.setModel(mod);
         statement = con.createStatement();
         resultSet = statement.executeQuery("SELECT legajo,name,surname FROM estudiantes");
-        mod.removeAllElements();
         while (resultSet.next()){
-            mod.addElement(resultSet.getString(1)+ " " + resultSet.getString(2)+" " + resultSet.getString(3));
+            mod.addElement(
+                    resultSet.getString(1)+ " " + resultSet.getString(2)+" " + resultSet.getString(3)
+            );
         }
+    }
+    public void consultarEstudiantesYLimpiarForm() throws SQLException {
+        removerElementosLista();
+        consultarEstudiantes();
     }
     private JLabel lblTItulo;
     public JPanel panelFormulario;
@@ -103,7 +115,7 @@ public class Estudiantes extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    insertarEstudiante();
+                    insertarEstudianteYLimpiarForm();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -113,7 +125,7 @@ public class Estudiantes extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    consultarEstudiantes();;
+                    consultarEstudiantesYLimpiarForm();
                 }catch (SQLException ex){
                     throw new RuntimeException(ex);
                 }
